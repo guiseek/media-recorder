@@ -272,19 +272,13 @@ function startRecording(mimeType?: string) {
   element.play.disabled = true
   downloadState(details, true)
 
-  mediaRecorder.onstop = (event) => {
-    // console.log('Gravador de mídia criado: ', event)
-    // console.log('Blobs Gravados: ', recordedBlobs)
+  mediaRecorder.onstop = () => {
+    console.log('Gravador de mídia criado: ', event)
+    console.log('Blobs Gravados: ', recordedBlobs)
   }
   mediaRecorder.ondataavailable = handleDataAvailable
   mediaRecorder.start(1000)
-  // console.log('Gravador de mídia iniciado', mediaRecorder)
-}
-
-function handleError() {
-  element.record.disabled = true
-  element.source.disabled = false
-  element.start.disabled = false
+  console.log('Gravador de mídia iniciado', mediaRecorder)
 }
 
 function handleSuccess(mediaStream: MediaStream) {
@@ -306,7 +300,7 @@ function handleSuccess(mediaStream: MediaStream) {
 }
 
 function handleDataAvailable(event: BlobEvent) {
-  // console.log('Dados armazenados', event.data)
+  console.log('Dados armazenados', event.data)
   if (event.data && event.data.size > 0) {
     recordedBlobs.push(event.data)
   }
@@ -320,7 +314,7 @@ signaling.on = (value) => {
   switch (value.type) {
     case 'offer': {
       if (!control.value().hasOffer) {
-        // console.log('recebi oferta e enviei uma resposta')
+        console.log('recebi oferta e enviei uma resposta')
         control.setState({hasOffer: true})
         signaling.send({type: 'answer'})
       }
@@ -328,14 +322,14 @@ signaling.on = (value) => {
     }
     case 'answer': {
       if (!control.value().hasAnswer) {
-        // console.log('recebi uma resposta')
+        console.log('recebi uma resposta')
         control.setState({hasAnswer: true})
         signaling.send({type: 'answer'})
       }
       return
     }
     case 'rachow': {
-      // console.log('eu sou um zumbi')
+      console.log('eu sou um zumbi')
       element.source.disabled = true
       element.start.disabled = true
       element.codecPreferences.disabled = true
@@ -388,7 +382,7 @@ signaling.on = (value) => {
 control
   .select((state) => state)
   .subscribe((state) => {
-    // console.log(state)
+    console.log(state)
     const {hasOffer, hasAnswer} = state
     const allRight = hasOffer && hasAnswer
     if (allRight) {

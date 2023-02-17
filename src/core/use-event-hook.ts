@@ -1,4 +1,4 @@
-function useEventHook<O>(map: Map<any, any>) {
+export function useEventHook<O>(map: Map<any, any>) {
   const pick = <P extends keyof O>(key: P): Callback<O[P]>[] => {
     return map.get(key) ?? []
   }
