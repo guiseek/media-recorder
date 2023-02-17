@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
+    <title>Gravador de mídia</title>
+    <script type="module" crossorigin src="/assets/index-f6766d8c.js"></script>
+    <link rel="stylesheet" href="/assets/index-f3f95f55.css">
+  </head>
+  <body>
+    <main>
+      <div id="video">
+        <video id="recording" playsinline autoplay muted></video>
+        <video hidden id="recorded" playsinline loop></video>
+      </div>
+
+      <div class="flex row flex-1 align-end gap-32">
+        <div class="flex-1">
+          <span>Origem de gravação:</span>
+          <select id="sourceStream">
+            <option value="user">Câmera</option>
+            <option value="display">Tela</option>
+          </select>
+        </div>
+        <div class="flex-1">
+          <button id="start">Iniciar</button>
+        </div>
+        <div class="flex-1">
+          <span>Formato de gravação:</span>
+          <select id="codecPreferences" disabled></select>
+        </div>
+      </div>
+      <div class="flex row flex-1 align-end justify-start gap-32">
+        <div class="flex-1">
+          <button id="record" disabled>Comece a gravar</button>
+        </div>
+        <div class="flex-1">
+          <button id="play" disabled>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#000000"
+            >
+              <use href="#icon-play" />
+              <symbol id="icon-play">
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M8 5v14l11-7L8 5z" fill="currentcolor" />
+              </symbol>
+              <symbol id="icon-pause">
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentcolor" />
+              </symbol>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1">
+          <details role="list">
+            <summary aria-disabled="true" aria-haspopup="listbox" role="button">
+              Download
+            </summary>
+            <ul role="listbox">
+              <li><a aria-disabled="true" id="download">WebM</a></li>
+              <li><a aria-disabled="true" id="convert">MP4</a></li>
+            </ul>
+          </details>
+        </div>
+      </div>
+      <output id="errorMsg"></output>
+    </main>
+
+    <dialog id="progress">
+      <article>
+        <header>
+          <a href="#close" aria-label="Close" class="close"></a>
+          Conversão em progresso, aguarde...
+        </header>
+        <var>0%</var>
+        <progress value="0" max="100"></progress>
+      </article>
+    </dialog>
+    
+  </body>
+</html>
