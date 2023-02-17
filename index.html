@@ -9,8 +9,8 @@
       href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
     />
     <title>Gravador de mídia</title>
-    <script type="module" crossorigin src="/media-recorder/assets/index-ce2c3b77.js"></script>
-    <link rel="stylesheet" href="/media-recorder/assets/index-f3f95f55.css">
+    <script type="module" crossorigin src="/media-recorder/assets/index-22374e0b.js"></script>
+    <link rel="stylesheet" href="/media-recorder/assets/index-0401d485.css">
   </head>
   <body>
     <main>
@@ -18,63 +18,113 @@
         <video id="recording" playsinline autoplay muted></video>
         <video hidden id="recorded" playsinline loop></video>
       </div>
+      <section class="cover flex col gap-16">
+        <div class="flex row flex-1 align-end justify-start gap-32">
+          <div class="flex-1">
+            <a href="/" role="button" class="outline" target="_blank">
+              Abrir fóton gêmeo
+            </a>
+          </div>
+          <div class="flex-1">
+            <input id="twinPhoton" type="checkbox" disabled />
+            <span class="has-help-icon">
+              <a
+                href="#helper"
+                onclick="helper.use(true, 1)"
+                data-tooltip="Gravação dupla simultânea, clique para saber mais"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  width="24px"
+                >
+                  <use href="#icon-help" />
+                </svg>
+              </a>
+              <label for="twinPhoton"> Ativar fóton gêmeo </label>
+            </span>
+          </div>
 
-      <div class="flex row flex-1 align-end gap-32">
-        <div class="flex-1">
-          <span>Origem de gravação:</span>
-          <select id="sourceStream">
-            <option value="user">Câmera</option>
-            <option value="display">Tela</option>
-          </select>
+          <div class="flex-1"></div>
         </div>
-        <div class="flex-1">
-          <button id="start">Iniciar</button>
+        <div class="flex row flex-1 align-end gap-32">
+          <div class="flex-1">
+            <span>Origem de gravação:</span>
+            <select id="sourceStream">
+              <option value="user">Câmera</option>
+              <option value="display">Tela</option>
+            </select>
+          </div>
+          <div class="flex-1">
+            <button id="start">Iniciar</button>
+          </div>
+          <div class="flex-1">
+            <span>Formato de gravação:</span>
+            <select id="codecPreferences" disabled></select>
+          </div>
         </div>
-        <div class="flex-1">
-          <span>Formato de gravação:</span>
-          <select id="codecPreferences" disabled></select>
+        <div class="flex row flex-1 align-end justify-start gap-32">
+          <div class="flex-1">
+            <button id="record" disabled>Comece a gravar</button>
+          </div>
+          <div class="flex-1">
+            <button id="play" disabled>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 0 24 24"
+                width="24px"
+                fill="#000000"
+              >
+                <use href="#icon-play" />
+                <symbol id="icon-play">
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path d="M8 5v14l11-7L8 5z" fill="currentcolor" />
+                </symbol>
+                <symbol id="icon-pause">
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path
+                    d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"
+                    fill="currentcolor"
+                  />
+                </symbol>
+              </svg>
+            </button>
+          </div>
+          <div class="flex-1">
+            <details role="list">
+              <summary
+                aria-disabled="true"
+                aria-haspopup="listbox"
+                role="button"
+              >
+                Download
+              </summary>
+              <ul role="listbox">
+                <li><a aria-disabled="true" id="download">WebM</a></li>
+                <li><a aria-disabled="true" id="convert">MP4</a></li>
+              </ul>
+            </details>
+          </div>
         </div>
-      </div>
-      <div class="flex row flex-1 align-end justify-start gap-32">
-        <div class="flex-1">
-          <button id="record" disabled>Comece a gravar</button>
-        </div>
-        <div class="flex-1">
-          <button id="play" disabled>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 0 24 24"
-              width="24px"
-              fill="#000000"
-            >
-              <use href="#icon-play" />
-              <symbol id="icon-play">
-                <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M8 5v14l11-7L8 5z" fill="currentcolor" />
-              </symbol>
-              <symbol id="icon-pause">
-                <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentcolor" />
-              </symbol>
-            </svg>
-          </button>
-        </div>
-        <div class="flex-1">
-          <details role="list">
-            <summary aria-disabled="true" aria-haspopup="listbox" role="button">
-              Download
-            </summary>
-            <ul role="listbox">
-              <li><a aria-disabled="true" id="download">WebM</a></li>
-              <li><a aria-disabled="true" id="convert">MP4</a></li>
-            </ul>
-          </details>
-        </div>
-      </div>
+      </section>
       <output id="errorMsg"></output>
     </main>
 
+    <dialog id="question">
+      <article>
+        <header>
+          <a
+            href="#close"
+            aria-label="Close"
+            class="close"
+            data-tooltip="Fechar"
+          ></a>
+          <span></span>
+        </header>
+        <select name="choice" id="choice"></select>
+      </article>
+    </dialog>
     <dialog id="progress">
       <article>
         <header>
@@ -85,6 +135,28 @@
         <progress value="0" max="100"></progress>
       </article>
     </dialog>
+    <dialog id="help">
+      <article>
+        <header>
+          <a
+            href="#close"
+            onclick="helper.use(false)"
+            aria-label="Close"
+            class="close"
+          ></a>
+          <span></span>
+        </header>
+        <p></p>
+      </article>
+    </dialog>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <symbol id="icon-help">
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path
+          d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
+        />
+      </symbol>
+    </svg>
     
   </body>
 </html>
