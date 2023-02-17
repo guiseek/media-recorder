@@ -43,6 +43,15 @@ const element = {
   play: select(`button#play`),
 }
 
+document.head.querySelectorAll('meta').forEach((meta) => {
+  if (
+    meta.httpEquiv === 'origin-trial' &&
+    !import.meta.env.SHARED_ARRAY_BUFFER_TOKEN
+  ) {
+    element.convert.remove()
+  }
+})
+
 const setErrorMessage = errorMessage(select('output#errorMsg'))
 
 const details = select('details')
