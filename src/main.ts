@@ -73,6 +73,15 @@ const element = {
   play: select(`button#play`),
 }
 
+document.head.querySelectorAll('meta').forEach((meta) => {
+  if (
+    meta.httpEquiv === 'origin-trial' &&
+    !import.meta.env.SHARED_ARRAY_BUFFER_TOKEN
+  ) {
+    element.convert.remove()
+  }
+})
+
 const setErrorMessage = errorMessage(select('output#errorMsg'))
 
 const details = select('details')
@@ -272,9 +281,16 @@ function startRecording(mimeType?: string) {
   // console.log('Gravador de mídia iniciado', mediaRecorder)
 }
 
+function handleError() {
+  element.record.disabled = true
+  element.source.disabled = false
+  element.start.disabled = false
+}
+
 function handleSuccess(mediaStream: MediaStream) {
   element.source.disabled = true
-  // console.log('Fluxo de mídia do usuário recebido:', mediaStream)
+  element.start.disabled = true
+  console.log('Fluxo de mídia do usuário recebido:', mediaStream)
   stream = mediaStream
 
   element.recording.srcObject = mediaStream
