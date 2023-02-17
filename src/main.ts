@@ -117,9 +117,16 @@ function startRecording() {
   console.log('Gravador de mídia iniciado', mediaRecorder)
 }
 
+function handleError() {
+  element.record.disabled = true
+  element.source.disabled = false
+  element.start.disabled = false
+}
+
 function handleSuccess(mediaStream: MediaStream) {
   element.record.disabled = false
   element.source.disabled = true
+  element.start.disabled = true
   console.log('Fluxo de mídia do usuário recebido:', mediaStream)
   stream = mediaStream
 
@@ -172,9 +179,9 @@ function stopRecording() {
 async function init(constraints: MediaStreamConstraints) {
   try {
     if (element.source.value === 'display') {
-      getDisplay(constraints).then(handleSuccess)
+      getDisplay(constraints).then(handleSuccess).catch(handleError)
     } else {
-      getUser(constraints).then(handleSuccess)
+      getUser(constraints).then(handleSuccess).catch(handleError)
     }
   } catch (e) {
     setErrorMessage(e, 'Erro ao solicitar fluxo do usuário')
@@ -182,7 +189,6 @@ async function init(constraints: MediaStreamConstraints) {
 }
 
 element.start.onclick = async () => {
-  element.start.disabled = true
   const constraints = {
     audio: {echoCancellation: {exact: true}},
     video: {width: 1280, height: 720},
