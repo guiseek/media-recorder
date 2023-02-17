@@ -32,6 +32,8 @@
   --form-element-focus-color: var(--primary-focus);
   --switch-color: var(--primary-inverse);
   --switch-checked-background-color: var(--primary);
+
+  --form-element-spacing-vertical: 8px;
 }
 
 html,
@@ -42,6 +44,7 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
+  position: relative;
 }
 
 body main {
@@ -89,6 +92,48 @@ dialog {
     font-size: 36px;
     margin-bottom: 24px;
   }
+  header span {
+    font-size: 200%;
+  }
+}
+
+label {
+  cursor: pointer;
+}
+
+.has-help-icon {
+  display: inline-flex;
+  position: relative;
+  [data-tooltip] {
+    position: absolute;
+    top: -15px;
+    right: -20px;
+  }
+}
+
+body .cover::after {
+  color: white;
+  z-index: -10;
+  background-color: transparent;
+  transition: background-color 3s ease-in-out;
+  transition: color 3s ease-in-out;
+}
+
+body.zombie .cover::after {
+  font-size: 36px;
+  color: rgba(0, 0, 0, 0.3);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: 'Zombie mode';
+  background-color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
 }
 
 .flex {
@@ -123,6 +168,18 @@ dialog {
     &.align-center {
       justify-items: center;
     }
+    &.align-end {
+      justify-items: flex-end;
+    }
+    .self-start {
+      align-self: flex-start;
+    }
+    .self-end {
+      align-self: flex-end;
+    }
+    .self-center {
+      align-self: center;
+    }
   }
   &.row {
     flex-direction: row;
@@ -140,6 +197,15 @@ dialog {
     }
     &.align-center {
       align-items: center;
+    }
+    .self-start {
+      justify-self: flex-start;
+    }
+    .self-end {
+      justify-self: flex-end;
+    }
+    .self-center {
+      justify-self: center;
     }
 
     &.space-around {
