@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
-    "build": "tsc && vite build --mode production --base media-recorder",
+    "build": "tsc && vite build --mode production --base /media-recorder",
     "build:staging": "tsc && vite build --mode staging",
     "preview": "vite preview"
   },
